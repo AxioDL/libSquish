@@ -1,26 +1,28 @@
 HEADERS += \
-   squish.h
+   $$PWD/squish.h
 
 SOURCES += \
-   alpha.cpp \
-   alpha.h \
-   clusterfit.cpp \
-   clusterfit.h \
-   colourblock.cpp \
-   colourblock.h \
-   colourfit.cpp \
-   colourfit.h \
-   colourset.cpp \
-   colourset.h \
-   maths.cpp \
-   maths.h \
-   rangefit.cpp \
-   rangefit.h \
-   simd.h \
-   simd_float.h \
-   simd_sse.h \
-   simd_ve.h \
-   singlecolourfit.cpp \
-   singlecolourfit.h \
-   singlecolourlookup.inl \
-   squish.cpp
+   $$PWD/alpha.cpp \
+   $$PWD/alpha.h \
+   $$PWD/clusterfit.cpp \
+   $$PWD/clusterfit.h \
+   $$PWD/colourblock.cpp \
+   $$PWD/colourblock.h \
+   $$PWD/colourfit.cpp \
+   $$PWD/colourfit.h \
+   $$PWD/colourset.cpp \
+   $$PWD/colourset.h \
+   $$PWD/maths.cpp \
+   $$PWD/maths.h \
+   $$PWD/rangefit.cpp \
+   $$PWD/rangefit.h \
+   $$PWD/simd.h \
+   $$PWD/simd_float.h \
+   $$PWD/simd_sse.h \
+   $$PWD/simd_ve.h \
+   $$PWD/singlecolourfit.cpp \
+   $$PWD/singlecolourfit.h \
+   $$PWD/singlecolourlookup.inl \
+   $$PWD/squish.cpp
+
+INCLUDEPATH += $$PWD
