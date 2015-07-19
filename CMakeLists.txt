@@ -38,6 +38,8 @@ SET(SQUISH_SRCS
     alpha.h
     clusterfit.cpp
     clusterfit.h
+    colourblockGCN.cpp
+    colourblockGCN.h
     colourblock.cpp
     colourblock.h
     colourfit.cpp
