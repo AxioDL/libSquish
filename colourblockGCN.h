@@ -38,4 +38,4 @@ void DecompressColourGCN( u8* rgba, void const* block );
 
 } // namespace squish
 
-#endif // ndef SQUISH_COLOURBLOCK_H
+#endif // ndef SQUISH_COLOURBLOCKGCN_H

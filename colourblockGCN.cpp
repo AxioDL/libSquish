@@ -61,7 +61,7 @@ static void WriteColourBlock( int a, int b, u8* indices, void* block )
     // get the block as bytes
     u8* bytes = ( u8* )block;
 
-    // write the endpoints
+    // write the endpoints - GCN 16-bit words byte-swapped
     bytes[1] = ( u8 )( a & 0xff );
     bytes[0] = ( u8 )( a >> 8 );
     bytes[3] = ( u8 )( b & 0xff );
@@ -71,6 +71,7 @@ static void WriteColourBlock( int a, int b, u8* indices, void* block )
     for( int i = 0; i < 4; ++i )
     {
         u8 const* ind = indices + 4*i;
+        // GCN: indices reversed
         bytes[4 + i] = ind[3] | ( ind[2] << 2 ) | ( ind[1] << 4 ) | ( ind[0] << 6 );
     }
 }
@@ -142,7 +143,7 @@ void WriteColourBlock4GCN( Vec3::Arg start, Vec3::Arg end, u8 const* indices, vo
 
 static int Unpack565( u8 const* packed, u8* colour )
 {
-    // build the packed value
+    // build the packed value - GCN: indices reversed
     int value = ( int )packed[1] | ( ( int )packed[0] << 8 );
 
     // get the components in the stored range
@@ -199,6 +200,7 @@ void DecompressColourGCN( u8* rgba, void const* block )
         u8* ind = indices + 4*i;
         u8 packed = bytes[4 + i];
 
+        // GCN: indices reversed
         ind[3] = packed & 0x3;
         ind[2] = ( packed >> 2 ) & 0x3;
         ind[1] = ( packed >> 4 ) & 0x3;
