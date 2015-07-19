@@ -23,8 +23,8 @@
 	
    -------------------------------------------------------------------------- */
    
-#ifndef SQUISH_COLOURBLOCK_H
-#define SQUISH_COLOURBLOCK_H
+#ifndef SQUISH_COLOURBLOCKGCN_H
+#define SQUISH_COLOURBLOCKGCN_H
 
 #include "squish.h"
 #include "maths.h"
