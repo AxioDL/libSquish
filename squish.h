@@ -46,6 +46,9 @@ enum
 	
 	//! Use DXT5 compression.
 	kDxt5 = ( 1 << 2 ), 
+
+	//! Use DXT1 compression with GCN byte-ordering
+	kDxt1GCN = ( 1 << 9 ),
 	
 	//! Use a very slow but very high quality colour compressor.
 	kColourIterativeClusterFit = ( 1 << 8 ),	

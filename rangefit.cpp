@@ -26,6 +26,7 @@
 #include "rangefit.h"
 #include "colourset.h"
 #include "colourblock.h"
+#include "colourblockGCN.h"
 #include <cfloat>
 
 namespace squish {
@@ -138,8 +139,11 @@ void RangeFit::Compress3( void* block )
 		m_colours->RemapIndices( closest, indices );
 		
 		// save the block
-		WriteColourBlock3( m_start, m_end, indices, block );
-		
+		if ( ( m_flags & kDxt1GCN ) != 0 )
+			WriteColourBlock3GCN( m_start, m_end, indices, block );
+		else
+			WriteColourBlock3( m_start, m_end, indices, block );
+
 		// save the error
 		m_besterror = error;
 	}
@@ -191,7 +195,10 @@ void RangeFit::Compress4( void* block )
 		m_colours->RemapIndices( closest, indices );
 		
 		// save the block
-		WriteColourBlock4( m_start, m_end, indices, block );
+		if ( ( m_flags & kDxt1GCN ) != 0 )
+			WriteColourBlock4GCN( m_start, m_end, indices, block );
+		else
+			WriteColourBlock4( m_start, m_end, indices, block );
 
 		// save the error
 		m_besterror = error;

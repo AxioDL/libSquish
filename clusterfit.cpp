@@ -27,6 +27,7 @@
 #include "clusterfit.h"
 #include "colourset.h"
 #include "colourblock.h"
+#include "colourblockGCN.h"
 #include <cfloat>
 
 namespace squish {
@@ -237,7 +238,10 @@ void ClusterFit::Compress3( void* block )
 		m_colours->RemapIndices( unordered, bestindices );
 		
 		// save the block
-		WriteColourBlock3( beststart.GetVec3(), bestend.GetVec3(), bestindices, block );
+		if ( ( m_flags & kDxt1GCN ) != 0 )
+			WriteColourBlock3GCN( beststart.GetVec3(), bestend.GetVec3(), bestindices, block );
+		else
+			WriteColourBlock3( beststart.GetVec3(), bestend.GetVec3(), bestindices, block );
 
 		// save the error
 		m_besterror = besterror;
@@ -382,7 +386,10 @@ void ClusterFit::Compress4( void* block )
 		m_colours->RemapIndices( unordered, bestindices );
 		
 		// save the block
-		WriteColourBlock4( beststart.GetVec3(), bestend.GetVec3(), bestindices, block );
+		if ( ( m_flags & kDxt1GCN ) != 0 )
+			WriteColourBlock4GCN( beststart.GetVec3(), bestend.GetVec3(), bestindices, block );
+		else
+			WriteColourBlock4( beststart.GetVec3(), bestend.GetVec3(), bestindices, block );
 
 		// save the error
 		m_besterror = besterror;

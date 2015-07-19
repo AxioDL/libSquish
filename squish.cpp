@@ -29,6 +29,7 @@
 #include "rangefit.h"
 #include "clusterfit.h"
 #include "colourblock.h"
+#include "colourblockGCN.h"
 #include "alpha.h"
 #include "singlecolourfit.h"
 
@@ -37,12 +38,12 @@ namespace squish {
 static int FixFlags( int flags )
 {
 	// grab the flag bits
-	int method = flags & ( kDxt1 | kDxt3 | kDxt5 );
+	int method = flags & ( kDxt1 | kDxt3 | kDxt5 | kDxt1GCN );
 	int fit = flags & ( kColourIterativeClusterFit | kColourClusterFit | kColourRangeFit );
 	int extra = flags & kWeightColourByAlpha;
 	
 	// set defaults
-	if( method != kDxt3 && method != kDxt5 )
+	if( method != kDxt3 && method != kDxt5 && method != kDxt1GCN )
 		method = kDxt1;
 	if( fit != kColourRangeFit && fit != kColourIterativeClusterFit )
 		fit = kColourClusterFit;
@@ -104,7 +105,10 @@ void Decompress( u8* rgba, void const* block, int flags )
 		colourBlock = reinterpret_cast< u8 const* >( block ) + 8;
 
 	// decompress colour
-	DecompressColour( rgba, colourBlock, ( flags & kDxt1 ) != 0 );
+	if ( ( flags & kDxt1GCN ) != 0 )
+		DecompressColourGCN( rgba, colourBlock );
+	else
+		DecompressColour( rgba, colourBlock, ( flags & kDxt1 ) != 0 );
 
 	// decompress alpha separately if necessary
 	if( ( flags & kDxt3 ) != 0 )
@@ -120,7 +124,7 @@ int GetStorageRequirements( int width, int height, int flags )
 	
 	// compute the storage requirements
 	int blockcount = ( ( width + 3 )/4 ) * ( ( height + 3 )/4 );
-	int blocksize = ( ( flags & kDxt1 ) != 0 ) ? 8 : 16;
+	int blocksize = ( ( flags & ( kDxt1 | kDxt1GCN ) ) != 0 ) ? 8 : 16;
 	return blockcount*blocksize;	
 }
 
@@ -131,7 +135,7 @@ void CompressImage( u8 const* rgba, int width, int height, void* blocks, int fla
 
 	// initialise the block output
 	u8* targetBlock = reinterpret_cast< u8* >( blocks );
-	int bytesPerBlock = ( ( flags & kDxt1 ) != 0 ) ? 8 : 16;
+	int bytesPerBlock = ( ( flags & ( kDxt1 | kDxt1GCN ) ) != 0 ) ? 8 : 16;
 
 	// loop over blocks
 	for( int y = 0; y < height; y += 4 )
@@ -185,7 +189,7 @@ void DecompressImage( u8* rgba, int width, int height, void const* blocks, int f
 
 	// initialise the block input
 	u8 const* sourceBlock = reinterpret_cast< u8 const* >( blocks );
-	int bytesPerBlock = ( ( flags & kDxt1 ) != 0 ) ? 8 : 16;
+	int bytesPerBlock = ( ( flags & ( kDxt1 | kDxt1GCN ) ) != 0 ) ? 8 : 16;
 
 	// loop over blocks
 	for( int y = 0; y < height; y += 4 )
