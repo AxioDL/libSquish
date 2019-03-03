@@ -180,7 +180,8 @@ void DecompressColourGCN( u8* rgba, void const* block )
 		if( a <= b )
 		{
 			codes[8 + i] = ( u8 )( ( c + d )/2 );
-			codes[12 + i] = 0;
+			// GCN: Use midpoint RGB rather than black
+			codes[12 + i] = codes[8 + i];
 		}
 		else
 		{
