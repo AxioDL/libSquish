@@ -185,8 +185,9 @@ void DecompressColourGCN( u8* rgba, void const* block )
 		}
 		else
 		{
-			codes[8 + i] = ( u8 )( ( 2*c + d )/3 );
-			codes[12 + i] = ( u8 )( ( c + 2*d )/3 );
+		  // GCN: 3/8 blend rather than 1/3
+			codes[8 + i] = ( u8 )((c * 5 + d * 3) >> 3);
+			codes[12 + i] = ( u8 )((c * 3 + d * 5) >> 3);
 		}
 	}
 
